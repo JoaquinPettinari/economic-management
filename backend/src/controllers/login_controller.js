@@ -1,25 +1,17 @@
 const passport = require('passport')
-const User = require('../models/users')
+const User = require('../models/Users')
 
-const login = async (req, res) => {
-    const { name, lastname, email, dni, password } = req.body;
+const get_user = async (req, res) => {
+    const { email, password } = req.body;
     try{
-        const newUser = new User({
-            name,
-            lastname,
-            email,
-            dni,
-            password
-        })
-        
-        console.log("entro")
-        const result = await User.find();
+        console.log("estoy")
+        const result = await User.find()
         console.log(result)
-        return res.status(200).json(newUser);
+        return res.status(200).json(result);
     }
     catch(error){
         return res.status(500)
     }
 };
 
-module.exports = { login }
+module.exports = { get_user }

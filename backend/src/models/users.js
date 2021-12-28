@@ -4,7 +4,6 @@ const UserSchema = new mongoose.Schema({
     name: {
         type: String,
         require:true,
-        unique:true
     },
     lastname:{
         type: String,
@@ -18,6 +17,7 @@ const UserSchema = new mongoose.Schema({
     dni:{
         type: Number,
         require: true,        
+        unique:true
     },
     password:{
         type: String,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -7,6 +7,8 @@ import { Provider } from 'react-redux'
 import reportWebVitals from './reportWebVitals';
 import { applyMiddleware, compose, createStore } from 'redux';
 import rootReducer from './reducers'
+import { CircularProgress } from '@material-ui/core'
+import { BrowserRouter } from 'react-router-dom'
 
 const store = createStore(
   rootReducer,
@@ -15,9 +17,13 @@ const store = createStore(
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <Suspense fallback={<CircularProgress />} >
+          <App />
+        </Suspense>
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

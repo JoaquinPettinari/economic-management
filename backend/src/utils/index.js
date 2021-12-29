@@ -1,5 +1,8 @@
-const withErrorHandling = require('./withErrorHandling')
+const withErrorHandling = require('./withErrorHandling');
+const { generarJWT, verifyJWT } = require('./jwt');
 
 module.exports = {
-    withErrorHandling
+    withErrorHandling,
+    generarJWT,
+    verifyJWT
 }

@@ -1,11 +1,14 @@
 const User = require('../models/Users')
 const passport = require('passport')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt');
+const { SEED_AUTHENTICATION, TOKEN_EXPIRATION } = require('../constants')
 
 const create_user = async (req, res) => {
     const { name, lastname, email, dni, password } = req.body;
-    try{
+    try {
         const user = await User.findOne({ email: email })
-        if(user){
+        if (user) {
             return res.status(400).json({
                 ok: false,
                 error: {
@@ -27,30 +30,47 @@ const create_user = async (req, res) => {
             response,
         })
     }
-    catch(error){
+    catch (error) {
         return res.status(500)
     }
 };
 
 const get_user = async (req, res) => {
     const { email, password } = req.body;
-    try{
+    try {
         const user = await User.findOne({ email: email })
-        
-        if(!user || user.password !== password){
+
+        if (!user) {
             return res.status(400).json({
                 ok: false,
                 error: {
                     message: "Incorrect user or password"
                 }
-             })
+            })
         }
+
+        /*if (bcrypt.compareSync(password, user.password)) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: "Usuario o contraseña incorrectos"
+                }
+            });
+        }*/
+
+        let token = jwt.sign({
+            user,
+        }, SEED_AUTHENTICATION, {
+            expiresIn: TOKEN_EXPIRATION
+        })
+
         return res.json({
             ok: true,
             user,
+            token
         })
     }
-    catch(error){
+    catch (error) {
         return res.status(500)
     }
 };

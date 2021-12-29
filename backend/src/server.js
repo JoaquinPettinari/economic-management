@@ -29,6 +29,7 @@ db.once('open', () => {
   console.log("Connected to MongoDB")
 })
 
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cors())
 

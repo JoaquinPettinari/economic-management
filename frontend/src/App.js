@@ -1,23 +1,29 @@
-import './App.css';
+import { AppRouter } from "./routers/AppRouter"
+import DrawerComponent from "./components/Drawer/Drawer";
+import React from "react";
 
-function App() {
+class App extends React.Component {
+  state = {
+    left: false
+  };
+  toggleDrawer = () => { 
+
+    this.setState({ left: false });
+  };
+
+
+
+
+  render() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   <AppRouter />
+   <DrawerComponent
+   left={this.state.left}
+   toggleDrawerHandler={this.toggleDrawer}
+ />
+ </div>
+    );
+  }
 }
-
 export default App;

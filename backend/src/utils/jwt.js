@@ -1,18 +1,16 @@
 const { SEED_AUTHENTICATION, TOKEN_EXPIRATION } = require('../constants');
 const jwt = require('jsonwebtoken');
 
-const generarJWT = (user, time = TOKEN_EXPIRATION) => {
-    const { name, lastname, email } = user;
-    const payload = { name, lastname, email };
+const generateJWT = (id, email, time = TOKEN_EXPIRATION) => {
+    const payload = { email, id };
     return jwt.sign(payload, SEED_AUTHENTICATION, { expiresIn: time });
 };
 
 const verifyJWT = (temporalToken) => {
-    console.log("Llego")
     return jwt.verify(temporalToken.toString(), SEED_AUTHENTICATION);
 }
 
 module.exports = {
-    generarJWT,
+    generateJWT,
     verifyJWT,
 }

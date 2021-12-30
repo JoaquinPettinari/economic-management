@@ -4,6 +4,7 @@ const User = require('../models/Users')
 const { SEED_AUTHENTICATION } = require('../constants')
 const JWTStrategy = require('passport-jwt').Strategy
 const ExtractJWT = require('passport-jwt').ExtractJwt
+const { generateJWT } = require('../utils')
 
 passport.use('signup', new localStrategy({
     usernameField: 'email',
@@ -11,9 +12,9 @@ passport.use('signup', new localStrategy({
     passReqToCallback: true,
 }, async (req, email, password, done) => {
     try {
-        console.log("Entro en el passport")
         const user = await User.create(req.body)
-        return done(null, user)
+        const token = generateJWT(user.id, email)
+        return done(null, { ...user.toJSON(), token })
     } catch (e) {
         return done(e)
     }
@@ -26,16 +27,18 @@ passport.use('login', new localStrategy({
     try {
         const user = await User.findOne({ email })
         if (!user) {
-            return done(null, false, { message: 'User not found' })
+            return done({ message: 'User not found' }, null)
         }
 
         const validate = await user.isValidPassword(password)
 
         if (!validate) {
-            return done(null, false, { message: 'Wrong password' })
+            return done({ message: 'Wrong password' }, null)
         }
 
-        return done(null, user, { message: 'Login successfull' })
+        const token = generateJWT(user.id, email)
+
+        return done(null, { ...user.toJSON(), token, message: 'Login successfull' })
     } catch (e) {
         return done(e)
     }

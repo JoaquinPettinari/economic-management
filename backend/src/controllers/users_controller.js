@@ -1,82 +1,31 @@
 const User = require('../models/Users')
 const passport = require('passport')
 const bcrypt = require('bcrypt');
-const { generarJWT } = require('../utils');
+const { generateJWT } = require('../utils');
 require('../passport/auth')
 
 const create_user = (req, res, next) => {
-    try {
-        passport.authenticate('signup', (err, data) => {
-            if (!err) {
-                return res.status(201).json({
-                    ok: true,
-                    data,
-                });
-            }
-            else {
-                console.log(err)
-                return res.status(400).json({ error: "This email is already registered" });
-            }
-        })(req, res, next);
-    }
-    catch (e) {
-        console.log(e)
-    }
-    /*const { name, lastname, email, dni, password } = req.body;
-    try {
-        const user = await User.findOne({ email: email })
-        if (user) {
-            return res.status(400).json({
-                ok: false,
-                error: {
-                    message: "This email is already registered"
-                }
-            })
+    passport.authenticate('signup', (err, data) => {
+        if (!err) {
+            return res.status(201).json({
+                ok: true,
+                data,
+            });
         }
-
-        const newUser = new User({
-            name,
-            lastname,
-            email,
-            dni,
-            password: bcrypt.hashSync(password, 10)
-        })
-        const response = await newUser.save();
-        return res.json({
-            ok: true,
-            response,
-        })
-    }
-    catch (error) {
-        return res.status(500)
-    }*/
+        else {
+            console.log(err)
+            return res.status(400).json({ error: "This email is already registered" });
+        }
+    })(req, res, next);
 };
 
-const get_user = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email: email })
-
-        if (!user || !bcrypt.compareSync(password, user.password)) {
-            return res.status(400).json({
-                ok: false,
-                error: {
-                    message: "Incorrect user or password"
-                }
-            })
+const get_user = async (req, res, next) => {
+    passport.authenticate('login', (err, data) => {
+        if (err) {
+          return res.status(401).json({ error: err });
         }
-
-        let token = generarJWT(user)
-
-        return res.json({
-            ok: true,
-            user,
-            token
-        })
-    }
-    catch (error) {
-        return res.status(500)
-    }
+        return res.status(200).json(data);
+      })(req, res, next);
 };
 
 module.exports = { create_user, get_user }

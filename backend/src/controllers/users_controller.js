@@ -2,9 +2,27 @@ const User = require('../models/Users')
 const passport = require('passport')
 const bcrypt = require('bcrypt');
 const { generarJWT } = require('../utils');
+require('../passport/auth')
 
-const create_user = async (req, res) => {
-    const { name, lastname, email, dni, password } = req.body;
+const create_user = (req, res, next) => {
+    try {
+        passport.authenticate('signup', (err, data) => {
+            if (!err) {
+                return res.status(201).json({
+                    ok: true,
+                    data,
+                });
+            }
+            else {
+                console.log(err)
+                return res.status(400).json({ error: "This email is already registered" });
+            }
+        })(req, res, next);
+    }
+    catch (e) {
+        console.log(e)
+    }
+    /*const { name, lastname, email, dni, password } = req.body;
     try {
         const user = await User.findOne({ email: email })
         if (user) {
@@ -31,7 +49,7 @@ const create_user = async (req, res) => {
     }
     catch (error) {
         return res.status(500)
-    }
+    }*/
 };
 
 const get_user = async (req, res) => {

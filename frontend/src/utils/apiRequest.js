@@ -25,7 +25,6 @@ export const apiManagerRequest = (
     const defaultOptions = getDefaultOptions();
     const requestOptions = merge(defaultOptions, options || {});
     requestOptions.url = `${REACT_APP_API_URL}${url}`;
-    console.log(requestOptions)
     axios(requestOptions)
         .then(res => {
             successCallback(res.data);

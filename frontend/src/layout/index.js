@@ -1,3 +1,3 @@
-import Header from './Header'
+import DashboardModule from './DashboardModule'
 
-export { Header }
+export { DashboardModule }

@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-
+import { Provider } from 'react-redux'
+import reportWebVitals from './reportWebVitals';
+import { CircularProgress, ThemeProvider } from '@material-ui/core'
+import { BrowserRouter } from 'react-router-dom'
+import theme from './theme'
+import { PersistGate } from 'redux-persist/integration/react'
+import { store, persistor } from './configureStore'
 
 ReactDOM.render(
- <App />,
+  <ThemeProvider theme={theme}>
+    <React.StrictMode>
+      <BrowserRouter>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            <Suspense fallback={<CircularProgress />} >
+              <App />
+            </Suspense>
+          </PersistGate>
+        </Provider>
+      </BrowserRouter>
+    </React.StrictMode>
+  </ThemeProvider>,
   document.getElementById('root')
 );
 

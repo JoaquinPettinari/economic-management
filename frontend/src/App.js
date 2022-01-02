@@ -1,6 +1,6 @@
-import { AppRouter } from "./routers/AppRouter"
-import DrawerComponent from "./components/Drawer/Drawer";
-import React from "react";
+import './App.css';
+import { Route, Routes } from 'react-router-dom'
+import { Login, Registration, Homepage } from './routes'
 
 class App extends React.Component {
   state = {
@@ -16,14 +16,11 @@ class App extends React.Component {
 
   render() {
   return (
-    <div className="App">
-   <AppRouter />
-   <DrawerComponent
-   left={this.state.left}
-   toggleDrawerHandler={this.toggleDrawer}
- />
- </div>
-    );
-  }
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/registration" element={<Registration />} />
+      <Route path="/" element={<Homepage />} />
+    </Routes>
+  );
 }
 export default App;

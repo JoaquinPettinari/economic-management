@@ -2,19 +2,7 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom'
 import { Login, Registration, Homepage } from './routes'
 
-class App extends React.Component {
-  state = {
-    left: false
-  };
-  toggleDrawer = () => { 
-
-    this.setState({ left: false });
-  };
-
-
-
-
-  render() {
+function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
@@ -23,4 +11,5 @@ class App extends React.Component {
     </Routes>
   );
 }
+
 export default App;

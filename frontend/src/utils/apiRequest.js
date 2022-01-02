@@ -16,7 +16,7 @@ function getDefaultOptions() {
     };
 }
 
-export const apiManagerRequest = (
+export const apiRequest = (
     url,
     options,
     successCallback,
@@ -37,7 +37,7 @@ export const apiManagerRequest = (
 //TO PASS BODY USE 'data' FIELD
 export const apiRequestPromise = (uri, options) => {
     return new Promise((resolve, reject) => {
-        apiManagerRequest(
+        apiRequest(
             uri,
             options,
             res => {

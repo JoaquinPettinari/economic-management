@@ -1,10 +1,11 @@
-import { Grid, TextField } from '@material-ui/core'
+import { LoginLayout } from '../../layout'
+import RegistrationView from './container'
 
-function Registration(){
+function Registration() {
     return (
-        <Grid container>
-            <h1>SOY REGISTRACION</h1>
-        </Grid>
+        <LoginLayout>
+            <RegistrationView />
+        </LoginLayout>
     )
 }
 

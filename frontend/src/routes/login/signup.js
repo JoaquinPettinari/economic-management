@@ -44,8 +44,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-function Login(){
-    const [body, setBody] = useState({email: '', password: ''})
+function Signup(){
+    const [body, setBody] = useState({nickname: '', password: ''})
     const classes = useStyles()
 
     const handleChange = (e) => {
@@ -68,12 +68,15 @@ function Login(){
             <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />
             </Avatar>
-            <Typography component='h1' variant='subtitle1'>Sing In</Typography>
+            <Typography component='h1' variant='subtitle1'>Sign up</Typography>
             <form className={classes.form}>
-                <TextField fullWidth autoFocus color='primary' margin='normal' variant='outlined' label='Email' name='email' value={body.email} onChange={handleChange} required/>
-                <TextField fullWidth autoFocus color='primary' margin='normal' type='password' variant='outlined' label='Password' name='password' value={body.password} onChange={handleChange} required/>
+            <TextField fullWidth label='Name' placeholder="Enter your name" />
+            <TextField fullWidth label='Email' placeholder="Enter your email" />
+            <TextField fullWidth label='Phone Number' placeholder="Enter your phone number" />
+            <TextField fullWidth label='Password' placeholder="Enter your password"/>
+            <TextField fullWidth label='Confirm Password' placeholder="Confirm your password"/>
                 <Button fullWidth variant="contained" color="primary" className={classes.button} onClick={()=> onSubmit()}>
-                   Sing In
+                Sign up
                 </Button>
             </form>
             </div>
@@ -83,4 +86,4 @@ function Login(){
     )
 }
 
-export default Login
+export default Signup

@@ -14,10 +14,9 @@ function userReducer(state = initialState, action){
                 loading: true,
             }
         case FETCH_USER_SUCCESS:
-            const { user } = action.payload
             return {
                 ...state,
-                data: user,
+                data: action.data,
                 loading: false,
             };
         case FETCH_USER_ERROR:

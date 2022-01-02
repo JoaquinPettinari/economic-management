@@ -2,29 +2,28 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import thunk from "redux-thunk";
 import { Provider } from 'react-redux'
 import reportWebVitals from './reportWebVitals';
-import { applyMiddleware, compose, createStore } from 'redux';
-import rootReducer from './reducers'
-import { CircularProgress } from '@material-ui/core'
+import { CircularProgress, ThemeProvider } from '@material-ui/core'
 import { BrowserRouter } from 'react-router-dom'
-
-const store = createStore(
-  rootReducer,
-  compose(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()),
-)
+import theme from './theme'
+import { PersistGate } from 'redux-persist/integration/react'
+import { store, persistor } from './configureStore'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <Suspense fallback={<CircularProgress />} >
-          <App />
-        </Suspense>
-      </Provider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <ThemeProvider theme={theme}>
+    <React.StrictMode>
+      <BrowserRouter>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            <Suspense fallback={<CircularProgress />} >
+              <App />
+            </Suspense>
+          </PersistGate>
+        </Provider>
+      </BrowserRouter>
+    </React.StrictMode>
+  </ThemeProvider>,
   document.getElementById('root')
 );
 

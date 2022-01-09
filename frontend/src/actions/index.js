@@ -1,5 +1,1 @@
-import { createUser } from './user'
-
-export {
-    createUser
-}
+export { getOrCreateUser } from './user'

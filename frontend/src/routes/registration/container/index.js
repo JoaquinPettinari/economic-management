@@ -1,16 +1,17 @@
 import { Grid, Typography } from '@material-ui/core';
 import { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
 import { IS_REQUIRED, EMAIL_FORMAT, PASSWORD_MISMATCH, INVALID_FORMAT } from '../../../constants';
 import { LoadingButton } from '../../../components/LoadingButton';
 import { useForm } from '../../../hooks';
-import { createUser } from '../../../actions'
+import { getOrCreateUser } from '../../../actions'
 import { connect } from 'react-redux';
 import { isEmpty } from 'ramda';
 
-function RegistrationView({ createUser, user }) {
+function RegistrationView({ getOrCreateUser, user }) {
     const [fetching, setFetching] = useState(false)
+    let navigate = useNavigate();
     const { formData, handleInputChange } = useForm(
         {
             name: '',
@@ -23,11 +24,11 @@ function RegistrationView({ createUser, user }) {
     );
     const { name, lastname, email, dni, password, repeatPassword } = formData
 
-    ValidatorForm.addValidationRule('isPasswordMatch', (value) => value === password );
+    ValidatorForm.addValidationRule('isPasswordMatch', (value) => value === password);
 
     ValidatorForm.addValidationRule('invalidPassword', (value) =>
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/.test(String(value))
-    );    
+    );
 
     const textfieldData = [
         {
@@ -82,12 +83,12 @@ function RegistrationView({ createUser, user }) {
 
     const createNewUser = () => {
         setFetching(true)
-        createUser(formData)
+        getOrCreateUser(formData, 'registration')
+        navigate('/')
     }
 
     return (
         <ValidatorForm instantValidate={false} onSubmit={createNewUser}>
-            {!isEmpty(user.data) && <Link to="/" />}
             <Grid container justifyContent='center' align="center" spacing={3}>
                 <Grid item xs={12}>
                     <Typography variant='h4' color="primary">Registration</Typography>
@@ -116,11 +117,11 @@ function RegistrationView({ createUser, user }) {
 }
 
 const mapStateToProps = state => ({
-    user: state.user,  
+    user: state.user,
 });
-  
+
 const mapDispatchToProps = {
-    createUser
+    getOrCreateUser
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationView);

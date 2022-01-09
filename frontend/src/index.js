@@ -7,19 +7,16 @@ import reportWebVitals from './reportWebVitals';
 import { CircularProgress, ThemeProvider } from '@material-ui/core'
 import { BrowserRouter } from 'react-router-dom'
 import theme from './theme'
-import { PersistGate } from 'redux-persist/integration/react'
-import { store, persistor } from './configureStore'
+import { store } from './configureStore'
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <React.StrictMode>
       <BrowserRouter>
         <Provider store={store}>
-          <PersistGate persistor={persistor}>
-            <Suspense fallback={<CircularProgress />} >
-              <App />
-            </Suspense>
-          </PersistGate>
+          <Suspense fallback={<CircularProgress />} >
+            <App />
+          </Suspense>
         </Provider>
       </BrowserRouter>
     </React.StrictMode>
